@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 
 def search_closest(a, l, n=1):
@@ -18,3 +19,8 @@ def vector_size(a):
 
 def distance(a, b):
     return vector_size(b-a)
+
+
+def assure_directory(path):
+    if not os.path.isdir(path):
+        os.makedirs(path)

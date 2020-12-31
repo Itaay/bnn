@@ -25,6 +25,8 @@ class Creature:
 
         self.happiness = 0
         self.radius = 10
+        self.stuff_eaten = 0
+        self.food_happiness = 1.5
 
     def get_input_count(self):
         return len(self.sensors)
@@ -36,14 +38,28 @@ class Creature:
         return [s.sense() for s in self.sensors]
 
     def use_outputs(self, outputs):
-        left = outputs[0]
+        """left = outputs[0]
         right = outputs[1]
 
         rotation = (right - left) / 1.5
         #   self.v = self.position.direction * max(0.001, accelerate) * 10
         #   print(self.v)
-        self.v = rotate(self.v, rotation, False)
+        self.v = rotate(self.v, rotation, False)"""
         self.position.direction = self.v / vector_size(self.v)
+
+    def get_output_actions(self):
+        boost = 1.0
+
+        def rotate_right(power):
+            self.rotate(boost*power)
+
+        def rotate_left(power):
+            self.rotate(-boost*power)
+
+        return [rotate_left, rotate_right]
+
+    def rotate(self, rotation):
+        self.v = rotate(self.v, rotation, False)
 
     def display(self):
         # display the creature
@@ -55,7 +71,8 @@ class Creature:
 
     def update(self, t):
         self.position.move(self.v * t)
-        self.happiness /= 3
+        #   self.happiness /= 3
+        self.happiness = 0.0
         self.try_eat_food()
         if self.environment.space.out_of_bounds(self.position.location()):
             self.position.offset = self.environment.space.center()
@@ -63,7 +80,10 @@ class Creature:
     def try_eat_food(self):
         for f in self.environment.food:
             if distance(self.position.location(), f.position.location()) < self.radius * 2:
-                self.happiness += 0.5
+                self.stuff_eaten += 1
+                self.happiness += self.food_happiness
+                #   self.food_happiness *= 0.95
+
                 self.environment.food.remove(f)
 
 

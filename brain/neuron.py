@@ -12,7 +12,7 @@ def get_id():
 
 
 class Neuron:
-    def __init__(self, location, color =(255,0,0)):
+    def __init__(self, location, color =(255,0,0), fire_callback=None):
 
         self.id = get_id()  # id of neuron
         self.location = location    # location of neuron
@@ -49,6 +49,8 @@ class Neuron:
         self.can_learn = True
 
         self.color = color
+
+        self.fire_callback = fire_callback
 
     def distance(self, b):
         """
@@ -165,9 +167,14 @@ class Neuron:
             charge_to_release -= disperesed
             charge_released += disperesed
             total_strength -= a.strength
+        self.activate_fire_callback(charge_released)
         self.state -= charge_released
         self.accumulated_charge -= charge_released
         return charge_released
+
+    def activate_fire_callback(self, charge_released):
+        if not (self.fire_callback is None):
+            self.fire_callback(charge_released)
 
     def charge_decay(self):
         """

@@ -10,7 +10,7 @@ class Environment:
         self.space = space
         self.screen = screen
         self.food = []
-        self.chance_to_generate_food = 0.2
+        self.chance_to_generate_food = 0.0
 
     def update(self):
         chance = random.random()

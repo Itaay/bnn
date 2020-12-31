@@ -12,9 +12,18 @@ class Sensor:
         self.color = (50, 30, 140)
 
     def sense(self):
-        boost = 100
+        boost = 1
         foods = self.environment.food
-        self.value = sum([boost / (distance(self.location_node.location(), food.position.location())**2) for food in foods])
+        self.value = 0.0
+        distances = sorted([distance(self.location_node.location(), food.position.location()) for food in foods])
+
+        for d in distances[:1]:
+            self.value += boost / (d+0.0001)
+        """for food in foods:
+            distance_to_food = distance(self.location_node.location(), food.position.location())
+            if distance_to_food < 50:
+                self.value += boost / distance_to_food
+                """
         return self.value
 
     def display(self):

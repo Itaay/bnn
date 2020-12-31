@@ -34,6 +34,7 @@ class Simulation:
         while i < iterations or iterations == -1:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    self.screen.finalize()
                     raise SystemExit
             start = time.time()
             self.iterate(iteration_time)

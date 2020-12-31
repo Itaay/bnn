@@ -24,7 +24,7 @@ class Synapse:
         self.strain = 0.0
         self.activity_decay = 0.01                   #   Activity decay rate: How quickly the moving average decays
         self.strength_grow_rate = 0.01               #   How quickly the strength of the synapse grows
-        self.strength_decay_rate = 0.0001        #   How quickly the strength of the synapse degrades
+        self.strength_decay_rate = 0.0001#    0.0001        #   How quickly the strength of the synapse degrades
         self.activity_bottleneck_threshold = 0.25    #   activity/strength ratio threshold after which needs to strengthen
         self.redundancy_threshold = 0.01           #   activity/strength lower boundary: if below, reduce strength
         self.max_strength = 0.5
@@ -151,7 +151,8 @@ class Synapse:
         self.tension = 0
 
     def pull_activation(self, a):
-        return min(a*np.exp(min(10, 0.05*a*self.distance())), 50)
+        return 0
+        return min(a*np.exp(min(10, 0.05*a*self.distance())), 10)
 
 
 
